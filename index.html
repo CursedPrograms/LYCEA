@@ -1,18 +1,178 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>LYCEA — DREAM Robotics</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LYCEA — the DREAM Robotics training school</title>
+<meta name="description" content="LYCEA is the DREAM Robotics fleet's school: a Unity project where the robots learn in simulation, with Unity ML-Agents, before trying it for real.">
 <meta name="color-scheme" content="dark">
-<style>body{background:#0A0B0D;color:#E9F0EB;font-family:system-ui,Segoe UI,sans-serif;text-align:center;margin:0;padding:64px 20px}
-h1{font:800 clamp(44px,11vw,88px)/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;margin:0 0 6px}
-a.gh{display:inline-block;margin-top:18px;padding:11px 22px;border:1px solid #2a2f3a;border-radius:10px;color:#58a6ff;text-decoration:none}</style>
-</head><body>
-<h1>LYCEA</h1><p style="color:#9DABA2">Part of the DREAM Robotics ecosystem.</p>
-<a class="gh" href="https://github.com/CursedPrograms/LYCEA">View on GitHub</a>
+<meta property="og:title" content="LYCEA — the DREAM Robotics training school">
+<meta property="og:description" content="Unity simulation with parts that behave like the real ones, and ML-Agents to teach WHIP to walk and NORA to drive.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="site/style.css">
+<script src="site/site.js" defer></script>
+</head>
+<body>
+
+<nav aria-label="Primary">
+  <div class="wrap">
+    <a class="brand" href="#top">LYCEA</a>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#modules">Modules</a></li>
+      <li><a href="#agents">Agents</a></li>
+      <li><a href="#training">Training</a></li>
+      <li><a href="https://github.com/CursedPrograms/LYCEA">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow">A DREAM Robotics System</div>
+    <h1>LYCEA</h1>
+    <p class="tagline">The fleet's school</p>
+    <p class="lede">Named after the Lyceum, Aristotle's school, which had its own gymnasium: learning and training in one place. A Unity project where the DREAM Robotics robots learn in simulation before trying it for real, taught with Unity ML-Agents: WHIP to walk, and NORA to drive without hitting things and to follow a line.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/CursedPrograms/LYCEA">View on GitHub</a>
+      <a class="btn" href="#training">Train a robot</a>
+      <a class="btn" href="https://ko-fi.com/cursedentertainment">Support on Ko-fi</a>
+    </div>
+    <div class="tags" aria-label="Technologies">
+      <span class="tag">Unity 6</span>
+      <span class="tag">C#</span>
+      <span class="tag">ML-Agents</span>
+      <span class="tag">Python</span>
+      <span class="tag">PPO</span>
+      <span class="tag">MIT License</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="overview">
+  <div class="wrap">
+    <h2>Overview</h2>
+    <h3 class="title">Learn in simulation, then for real</h3>
+    <div class="grid cols-3">
+      <div class="card">
+        <span class="k">Modules</span>
+        <h4>Parts like the real ones</h4>
+        <p>Ultrasonic sensors, line sensors, servos, mecanum wheels and an IMU, each written to behave like the part on the robot, down to the firmware's &ldquo;no echo&rdquo; value.</p>
+      </div>
+      <div class="card">
+        <span class="k">Robots</span>
+        <h4>NORA and WHIP</h4>
+        <p>NORA at her real size and weight with her sensors where the real ones are; WHIP as a hexapod with 18 servos, an MPU6050 and a sonar at the front.</p>
+      </div>
+      <div class="card">
+        <span class="k">Arena</span>
+        <h4>A room that changes</h4>
+        <p>A 4 &times; 4 m room with walls, boxes that move every episode, and optionally a black-tape oval for line following. Six arenas train side by side.</p>
+      </div>
+      <div class="card">
+        <span class="k">Agents</span>
+        <h4>Three behaviours</h4>
+        <p>NORA roams without touching anything and follows the tape loop; WHIP walks forwards, staying upright, without thrashing.</p>
+      </div>
+      <div class="card">
+        <span class="k">Self-test</span>
+        <h4>Checked before training</h4>
+        <p><em>LYCEA &rsaquo; Self-test</em> passes: NORA's sonar reads a wall at the right distance, her line sensors see tape, she drives and strafes straight, and WHIP stands level on his servos.</p>
+      </div>
+      <div class="card">
+        <span class="k">Next</span>
+        <h4>Onto the real robots</h4>
+        <p>The inputs are the real sensor readings, so a trained NORA policy could run on the PC and drive her over WiFi. Exact models next, through the URDF Importer.</p>
+      </div>
+    </div>
+    <p class="muted">Status: compiles in Unity 6000.6.2f1 with ML-Agents 4.1.0, the three training scenes are built and the self-test passes. Training itself hasn't been run yet.</p>
+  </div>
+</section>
+
+<section id="modules">
+  <div class="wrap">
+    <h2>Modules</h2>
+    <h3 class="title">Assets/Lycea/Modules</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Script</th><th>Real part</th><th>Behaves like</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">UltrasonicSensor</td><td>HC-SR04</td><td>2&ndash;400 cm, a ~15&deg; cone, -1 for &ldquo;no echo&rdquo;, angled surfaces lose the echo, a little noise</td></tr>
+          <tr><td class="mono">LineSensor + LineMarker</td><td>3-channel line tracker</td><td>1 over tape, 0 over floor</td></tr>
+          <tr><td class="mono">MecanumDrive</td><td>4 mecanum wheels + 2&times; L298N</td><td>Per-wheel commands -1..1 and NORA's Forward / Strafe / Turn; the body moves by mecanum kinematics</td></tr>
+          <tr><td class="mono">ServoJoint</td><td>Hobby servo (MG996R)</td><td><code>Write(degrees)</code> like <code>Servo.write()</code>, speed- and torque-limited</td></tr>
+          <tr><td class="mono">ImuSensor</td><td>MPU6050</td><td>Pitch, roll, tilt, gyro, body-frame velocity</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <h2>Agents</h2>
+    <h3 class="title">What each robot learns</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Behaviour</th><th>Robot</th><th>Sees</th><th>Does</th><th>Learns</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">NoraAvoid</td><td>NORA</td><td>4 distances, 3 line sensors, her motion</td><td>Forward / strafe / turn</td><td>Roam without touching anything (a better Auto mode)</td></tr>
+          <tr><td class="mono">NoraLine</td><td>NORA</td><td>The same</td><td>The same</td><td>Go round the tape loop (a better Line mode)</td></tr>
+          <tr><td class="mono">WhipWalk</td><td>WHIP</td><td>Tilt, gyro, motion, 18 servo angles, distance ahead</td><td>18 servo targets</td><td>Walk forwards, staying upright, without thrashing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">Without a trained model the agents run their heuristic: NORA drives with W/S/A/D/Q/E, and WHIP plays a simple tripod gait.</p>
+  </div>
+</section>
+
+<section id="training">
+  <div class="wrap">
+    <h2>Training</h2>
+    <h3 class="title">From an empty scene to a model</h3>
+    <p class="muted">Build a scene in Unity (<em>LYCEA &rsaquo; Build NORA arena</em>, line following, or WHIP), then train it. The first run sets up Python 3.10 and <code>mlagents</code> 1.1.0 with uv. Settings are in <code>config/*.yaml</code> (PPO).</p>
+<pre><span class="p">&gt;</span> train.bat NoraAvoid       <span class="c"># or NoraLine, WhipWalk</span>
+<span class="c"># when it says it's listening, press Play in Unity</span>
+<span class="c"># the model lands in results\NoraAvoid\NoraAvoid.onnx:</span>
+<span class="c"># drop it on the agent's Behavior Parameters &rsaquo; Model</span>
+<span class="p">&gt;</span> train.bat NoraAvoid       <span class="c"># again: resumes where it stopped</span></pre>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/CursedPrograms/LYCEA">GitHub</a>
+      <a href="https://x.com/NorowaretaGemu">X: @NorowaretaGemu</a>
+      <a href="https://cursed-entertainment.itch.io/">itch.io</a>
+      <a href="https://ko-fi.com/cursedentertainment">Ko-fi</a>
+      <a href="https://github.com/CursedPrograms/LYCEA/blob/main/LICENSE">MIT License</a>
+    </div>
+
+    <div class="logos">
+      <a href="https://ko-fi.com/cursedentertainment">
+        <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support Cursed Entertainment on Ko-fi" width="180" loading="lazy">
+      </a>
+      <a href="https://cursed-entertainment.itch.io/">
+        <img src="https://github.com/CursedPrograms/cursedentertainment/raw/main/images/logos/logo-wide-grey.png" alt="Cursed Entertainment" width="250" loading="lazy">
+      </a>
+    </div>
+
+    <div>&copy; Cursed Entertainment 2026</div>
+  </div>
+</footer>
+
 <!-- DREAM-ECOSYSTEM:START -->
-<section style="max-width:880px;margin:32px auto;padding:18px 20px;border:1px solid #2a2f3a;border-radius:12px;background:#11141a;color:#c9d1d9;font-family:system-ui,Segoe UI,sans-serif;font-size:14px;line-height:1.9">
-  <div style="font:600 11px ui-monospace,Consolas,monospace;letter-spacing:.2em;text-transform:uppercase;color:#8b949e;margin-bottom:10px">The DREAM Robotics ecosystem</div>
-  <div><strong style="color:#8b949e">Minds</strong> — <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/DREAM">DREAM</a> companion · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/TINA">TINA</a> engineer · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/NINA">NINA</a> caretaker · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/RIFT">RIFT</a> fleet hub · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/LYCEA">LYCEA</a> training school</div>
-  <div><strong style="color:#8b949e">Robots</strong> — <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/NORA-Robot-v00">NORA</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/MILA-Robot-v00">MILA</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/WHIP-Robot-v00">WHIP</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/KIDA-Robot-v00">KIDA-00</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/KIDA-Robot-v01">KIDA-01</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/IDA-Robot-v00">IDA</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/ARM-Robot-v01">ARM</a></div>
-  <div><strong style="color:#8b949e">Tools</strong> — <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/CRUSH">CRUSH</a> compression · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/Image-Generator">Image-Generator</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/GloriosaAI">GloriosaAI</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/SynthWomb">SynthWomb</a> · <a style="color:#58a6ff;text-decoration:none" href="https://github.com/CursedPrograms/PyVitals">PyVitals</a></div>
+<section class="eco">
+  <div class="eco-title">The DREAM Robotics ecosystem</div>
+  <div><strong>Minds</strong> — <a href="https://github.com/CursedPrograms/DREAM">DREAM</a> companion · <a href="https://github.com/CursedPrograms/TINA">TINA</a> engineer · <a href="https://github.com/CursedPrograms/NINA">NINA</a> caretaker · <a href="https://github.com/CursedPrograms/RIFT">RIFT</a> fleet hub · <a href="https://github.com/CursedPrograms/LYCEA">LYCEA</a> training school</div>
+  <div><strong>Robots</strong> — <a href="https://github.com/CursedPrograms/NORA-Robot-v00">NORA</a> · <a href="https://github.com/CursedPrograms/MILA-Robot-v00">MILA</a> · <a href="https://github.com/CursedPrograms/WHIP-Robot-v00">WHIP</a> · <a href="https://github.com/CursedPrograms/KIDA-Robot-v00">KIDA-00</a> · <a href="https://github.com/CursedPrograms/KIDA-Robot-v01">KIDA-01</a> · <a href="https://github.com/CursedPrograms/IDA-Robot-v00">IDA</a> · <a href="https://github.com/CursedPrograms/ARM-Robot-v01">ARM</a></div>
+  <div><strong>Tools</strong> — <a href="https://github.com/CursedPrograms/CRUSH">CRUSH</a> compression · <a href="https://github.com/CursedPrograms/Image-Generator">Image-Generator</a> · <a href="https://github.com/CursedPrograms/GloriosaAI">GloriosaAI</a> · <a href="https://github.com/CursedPrograms/SynthWomb">SynthWomb</a> · <a href="https://github.com/CursedPrograms/PyVitals">PyVitals</a></div>
 </section>
 <!-- DREAM-ECOSYSTEM:END -->
-</body></html>
+</body>
+</html>
